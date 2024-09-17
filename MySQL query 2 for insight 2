@@ -1,0 +1,32 @@
+Insight 2: Compare the number of male managers to the number of female managers from different departments for each year,starting from 1990
+
+MySQL Query:
+
+Select
+d.dept_name,
+e.gender,
+dm.emp_no,
+dm.from_date,
+dm.to_date,
+e.calender_year,
+case
+when year(dm.to_date)>=e.calender_year and
+year(dm.from_date)<=e.calender_year then 1 else 0
+end as active
+from
+(select 
+year(hire_date)as calender-year
+from
+t_employees
+group by calender year) e 
+cross join
+t_dept_manager dm
+join
+t_deptartment d on 
+dm.dept_no=d.dept_no
+Join
+t_employees e on dm.emp_no=d.dept_no
+Join 
+t_employees e on dm.emp_no=e.emp_no
+order by 
+dm.emp_no,calender_year;
