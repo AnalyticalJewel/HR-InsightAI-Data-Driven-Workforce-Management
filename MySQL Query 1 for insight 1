@@ -1,0 +1,13 @@
+Insight: 1
+A MySQL query that creates a visualisation that provides a breakdown between the male and female employees working in the company each year ,salary from 1990.
+
+Query:
+Select
+year(from_date)as calender_year, e.gender ,count(emp_no) as number_of_employees
+from t_employees e
+Join
+t_dept_emp d 
+on d.emp_no=e.emp_no
+Group by calender_year,e.gender
+Having
+calender_year>=1990;
