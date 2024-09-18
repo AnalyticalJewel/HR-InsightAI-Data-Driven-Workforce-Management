@@ -1,0 +1,31 @@
+Insight: 4
+To create an SQL stored procedure that will allow you to obtain the average male and female salary per department within certain salary range. 
+Let this range be defined by two values the user can insert when calling the procedure
+
+MySQL Query
+
+Drop procedure if exists filter_salary;
+Delimiter$$
+Create procedure filter_salary(IN p_min_salary float, IN p_max_salary float)
+Begin 
+Select
+  e.gender,
+  d.dept_name,
+  Avg(s.salary) as avg_salary
+From
+  t_salaries s
+Join
+  t_employees e 
+    ON s.emp_no=e.emp_no
+Join
+  t_dept_emp de 
+    ON de.emp_no=e.emp_no
+Join 
+  t_departments d
+    ON d.dept_no =de.dept_no
+Where
+  s.salary between p_min_salary AND p_max_salary
+Group by
+  d.dept_no,e.gender;
+END$$
+Delimiter;
