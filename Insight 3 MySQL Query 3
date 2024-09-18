@@ -1,0 +1,27 @@
+Insight: 3
+To compare the average salary of female versus male employees in the entire company until year 2002, and add a filter allowing  you to see that per each department
+
+MySQL Query
+
+Select
+  e.gender,
+  d.dept_name,
+  Round(Avg(s.salary),2) as salary,
+  year(s.from_date) as claendar_year
+From
+  t_salaries s 
+Join 
+  t_employees e 
+    On s.emp_no=e.emp_no
+Join 
+  t_dept_emp de 
+    ON de.emp_no=e.emp_no
+Join 
+  t_department d 
+    ON d.dept_no=de.dept_no
+Group by 
+  d.dept_no,e.gender,calender_year
+Having 
+  calender_year<=2002
+Order by
+  d.dept_no;
